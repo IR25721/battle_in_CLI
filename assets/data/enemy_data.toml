@@ -1,0 +1,38 @@
+[enemy_0]
+id = 0
+name = "e0"
+Lv = 1
+hp = 8
+mp = 0
+attack = 9
+defense = 5
+speed = 4
+action_count = 1
+exp = 4
+accessible_spells = []
+
+[enemy_1]
+id = 1
+name = "e1"
+Lv = 3
+hp = 12
+mp = 5
+attack = 11
+defense = 8
+speed = 8
+action_count = 1
+exp = 9
+accessible_spells = [2]
+
+[enemy_2]
+id = 2
+name = "e2"
+Lv = 3
+hp = 13
+mp = 0
+attack = 13
+defense = 8
+speed = 6
+action_count = 1
+exp = 12
+accessible_spells = []

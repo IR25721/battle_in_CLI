@@ -1,0 +1,10 @@
+[dungeon_0_0]
+id = 0
+name = "dungeon0_0"
+base_encounter_rate = 0.3
+maximum_number_of_occurrences = 4
+possible_enemy = [
+  { id = 0, conditional_probability = 0.3, probability_of_occurrence = 0.8 },
+  { id = 1, conditional_probability = 0.5, probability_of_occurrence = 0.7 },
+  { id = 2, conditional_probability = 0.2, probability_of_occurrence = 0.5 },
+]

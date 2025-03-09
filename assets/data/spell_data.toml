@@ -1,0 +1,23 @@
+[spell_0]
+id = 0
+name = "s0"
+description = "5~10ダメージを与える"
+mp_cost = 3
+
+[spell_1]
+id = 1
+name = "s1"
+description = "8~12回復する"
+mp_cost = 4
+
+[spell_2]
+id = 2
+name = "s2"
+description = "攻撃力を1.2倍する"
+mp_cost = 3
+
+[spell_3]
+id = 3
+name = "s3"
+description = "防御力を1.2倍する"
+mp_cost = 3

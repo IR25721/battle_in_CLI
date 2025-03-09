@@ -1,0 +1,11 @@
+[fellow_1]
+level = 5
+total_exp = 300
+hp = 43
+mp = 14
+attack = 20
+defense = 6
+speed = 13
+sword_id = 1
+armor_id = 3
+accessable_spell = [1, 2, 3]
