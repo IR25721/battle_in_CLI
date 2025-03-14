@@ -1,11 +1,13 @@
-[fellow_1]
-level = 5
+[fellow_0]
+id = 0
+name = "f0"
+lv = 6
 total_exp = 300
-hp = 43
+hp = 43.0
 mp = 14
-attack = 20
-defense = 6
-speed = 13
+attack = 20.0
+defense = 6.0
+speed = 13.0
 sword_id = 1
 armor_id = 3
-accessable_spell = [1, 2, 3]
+accessible_spells = [1, 2, 3]
