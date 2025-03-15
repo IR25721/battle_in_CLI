@@ -8,22 +8,22 @@ pub struct Data {
     id: u32,
     name: String,
     modifier: f64,
+    description: String,
     quantity: u8,
-    bonus_effect: String,
 }
 
 impl TomlData for Data {
     fn get_data(id: u32) -> Option<Self> {
-        let path = "assets/data/enemy_data.toml";
+        let path = "assets/data/item_data.toml";
         let toml_str = fs::read_to_string(path).ok()?;
-        let equipment_map: HashMap<String, Self> = match toml::from_str(&toml_str) {
+        let item_map: HashMap<String, Self> = match toml::from_str(&toml_str) {
             Ok(data) => data,
             Err(e) => {
                 eprintln!("Failed to deserialize TOML: {}", e);
                 return None;
             }
         };
-        let id_map: HashMap<u32, Self> = equipment_map
+        let id_map: HashMap<u32, Self> = item_map
             .into_iter()
             .map(|(_, data)| (data.id, data))
             .collect();
@@ -36,7 +36,7 @@ impl TomlData for Data {
         K: AsRef<str>,
         V: ToString,
     {
-        let path = "assets/data/equipment_data.toml";
+        let path = "assets/data/item_data.toml";
 
         let toml_str = match fs::read_to_string(path) {
             Ok(content) => content,
@@ -68,9 +68,9 @@ impl TomlData for Data {
                             found = true;
                         }
                     }
-                    "bonus_effect" => {
-                        if let Ok(new_bonus_effect) = new_value.to_string().parse::<String>() {
-                            item.bonus_effect = new_bonus_effect;
+                    "description" => {
+                        if let Ok(new_descripton) = new_value.to_string().parse::<String>() {
+                            item.description = new_descripton;
                             found = true;
                         }
                     }
@@ -103,10 +103,6 @@ impl TomlData for Data {
 impl Data {
     pub fn modifier(&self) -> f64 {
         self.modifier
-    }
-
-    pub fn bonus_effect(&self) -> String {
-        self.bonus_effect.clone()
     }
 
     pub fn quantity(&self) -> u8 {

@@ -7,23 +7,22 @@ use std::fs;
 pub struct Data {
     id: u32,
     name: String,
-    modifier: f64,
-    quantity: u8,
-    bonus_effect: String,
+    description: String,
+    mp_cost: i32,
 }
 
 impl TomlData for Data {
     fn get_data(id: u32) -> Option<Self> {
-        let path = "assets/data/enemy_data.toml";
+        let path = "assets/data/spell_data.toml";
         let toml_str = fs::read_to_string(path).ok()?;
-        let equipment_map: HashMap<String, Self> = match toml::from_str(&toml_str) {
+        let spell_map: HashMap<String, Self> = match toml::from_str(&toml_str) {
             Ok(data) => data,
             Err(e) => {
                 eprintln!("Failed to deserialize TOML: {}", e);
                 return None;
             }
         };
-        let id_map: HashMap<u32, Self> = equipment_map
+        let id_map: HashMap<u32, Self> = spell_map
             .into_iter()
             .map(|(_, data)| (data.id, data))
             .collect();
@@ -36,7 +35,7 @@ impl TomlData for Data {
         K: AsRef<str>,
         V: ToString,
     {
-        let path = "assets/data/equipment_data.toml";
+        let path = "assets/data/item_data.toml";
 
         let toml_str = match fs::read_to_string(path) {
             Ok(content) => content,
@@ -56,21 +55,15 @@ impl TomlData for Data {
                         item.name = new_value.to_string();
                         found = true;
                     }
-                    "modifier" => {
-                        if let Ok(new_modifier) = new_value.to_string().parse::<f64>() {
-                            item.modifier = new_modifier;
+                    "mp_cost" => {
+                        if let Ok(new_mp_cost) = new_value.to_string().parse::<i32>() {
+                            item.mp_cost = new_mp_cost;
                             found = true;
                         }
                     }
-                    "quantity" => {
-                        if let Ok(new_quantity) = new_value.to_string().parse::<u8>() {
-                            item.quantity = new_quantity;
-                            found = true;
-                        }
-                    }
-                    "bonus_effect" => {
-                        if let Ok(new_bonus_effect) = new_value.to_string().parse::<String>() {
-                            item.bonus_effect = new_bonus_effect;
+                    "description" => {
+                        if let Ok(new_descripton) = new_value.to_string().parse::<String>() {
+                            item.description = new_descripton;
                             found = true;
                         }
                     }
@@ -101,15 +94,7 @@ impl TomlData for Data {
 }
 
 impl Data {
-    pub fn modifier(&self) -> f64 {
-        self.modifier
-    }
-
-    pub fn bonus_effect(&self) -> String {
-        self.bonus_effect.clone()
-    }
-
-    pub fn quantity(&self) -> u8 {
-        self.quantity
+    pub fn mp_cost(&self) -> i32 {
+        self.mp_cost
     }
 }

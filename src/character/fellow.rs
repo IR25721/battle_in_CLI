@@ -147,30 +147,34 @@ impl TomlData for Data {
     fn id(&self) -> u32 {
         self.id
     }
-    fn lv(&self) -> u8 {
-        self.lv
-    }
-    fn hp(&self) -> f64 {
-        self.hp
-    }
-    fn mp(&self) -> i32 {
-        self.mp
-    }
-    fn attack(&self) -> f64 {
-        self.attack
-    }
-    fn defense(&self) -> f64 {
-        self.defense
-    }
-    fn speed(&self) -> f64 {
-        self.speed
-    }
-    fn accessible_spells(&self) -> Vec<u32> {
-        self.accessible_spells.clone()
+    fn name(&self) -> String {
+        self.name.clone()
     }
 }
 
 impl Data {
+    pub fn lv(&self) -> u8 {
+        self.lv
+    }
+    pub fn hp(&self) -> f64 {
+        self.hp
+    }
+    pub fn mp(&self) -> i32 {
+        self.mp
+    }
+    pub fn attack(&self) -> f64 {
+        self.attack
+    }
+    pub fn defense(&self) -> f64 {
+        self.defense
+    }
+    pub fn speed(&self) -> f64 {
+        self.speed
+    }
+    pub fn accessible_spells(&self) -> Vec<u32> {
+        self.accessible_spells.clone()
+    }
+
     pub fn total_exp(&self) -> i32 {
         self.total_exp
     }
