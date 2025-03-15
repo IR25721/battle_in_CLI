@@ -1,11 +1,11 @@
 [equipment0]
-id = 0
+id = 201
 name = "革のふく"
 modifier = 3
 quantity = 1
 bonus_effect = "なし"
 [equipment1]
-id = 1
+id = 211
 name = "ヒノキの棒"
 modifier = 2
 quantity = 1
