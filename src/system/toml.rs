@@ -8,4 +8,12 @@ pub trait TomlData {
         Self: Sized,
         K: AsRef<str>,
         V: ToString;
+
+    fn lv(&self) -> u8;
+    fn hp(&self) -> f64;
+    fn mp(&self) -> i32;
+    fn attack(&self) -> f64;
+    fn defense(&self) -> f64;
+    fn speed(&self) -> f64;
+    fn accessible_spells(&self) -> Vec<u8>;
 }

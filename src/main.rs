@@ -2,6 +2,7 @@ mod character;
 use character::{enemy, fellow};
 use system::toml::TomlData;
 mod system;
+use system::damage;
 
 fn main() {
     let f0 = fellow::Data::get_data(0);

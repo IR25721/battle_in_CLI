@@ -9,7 +9,7 @@ pub struct Data {
     name: String,
     hp: f64,
     lv: u8,
-    mp: f64,
+    mp: i32,
     attack: f64,
     defense: f64,
     speed: f64,
@@ -43,5 +43,27 @@ impl TomlData for Data {
         V: ToString,
     {
         todo!()
+    }
+
+    fn lv(&self) -> u8 {
+        self.lv
+    }
+    fn hp(&self) -> f64 {
+        self.hp
+    }
+    fn mp(&self) -> i32 {
+        self.mp
+    }
+    fn attack(&self) -> f64 {
+        self.attack
+    }
+    fn defense(&self) -> f64 {
+        self.defense
+    }
+    fn speed(&self) -> f64 {
+        self.speed
+    }
+    fn accessible_spells(&self) -> Vec<u8> {
+        self.accessible_spells.clone()
     }
 }

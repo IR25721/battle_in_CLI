@@ -14,8 +14,8 @@ pub struct Data {
     attack: f64,
     defense: f64,
     speed: f64,
-    sword_id: usize,
-    armor_id: usize,
+    sword_id: u8,
+    armor_id: u8,
     accessible_spells: Vec<u8>,
 }
 
@@ -106,13 +106,13 @@ impl TomlData for Data {
                         }
                     }
                     "sword_id" => {
-                        if let Ok(new_sword_id) = new_value.to_string().parse::<usize>() {
+                        if let Ok(new_sword_id) = new_value.to_string().parse::<u8>() {
                             item.sword_id = new_sword_id;
                             found = true;
                         }
                     }
                     "armor_id" => {
-                        if let Ok(new_armor_id) = new_value.to_string().parse::<usize>() {
+                        if let Ok(new_armor_id) = new_value.to_string().parse::<u8>() {
                             item.armor_id = new_armor_id;
                             found = true;
                         }
@@ -144,10 +144,38 @@ impl TomlData for Data {
 
         fs::write(path, new_toml).is_ok()
     }
+
+    fn lv(&self) -> u8 {
+        self.lv
+    }
+    fn hp(&self) -> f64 {
+        self.hp
+    }
+    fn mp(&self) -> i32 {
+        self.mp
+    }
+    fn attack(&self) -> f64 {
+        self.attack
+    }
+    fn defense(&self) -> f64 {
+        self.defense
+    }
+    fn speed(&self) -> f64 {
+        self.speed
+    }
+    fn accessible_spells(&self) -> Vec<u8> {
+        self.accessible_spells.clone()
+    }
 }
 
 impl Data {
-    pub fn lv(&self) -> u8 {
-        self.lv
+    pub fn total_exp(&self) -> i32 {
+        self.total_exp
+    }
+    pub fn sword_id(&self) -> u8 {
+        self.sword_id
+    }
+    pub fn armor_id(&self) -> u8 {
+        self.armor_id
     }
 }
