@@ -3,7 +3,7 @@ use character::{enemy, fellow};
 use system::toml::TomlData;
 mod system;
 use system::damage;
-
+use system::order_of_action;
 fn main() {
     let f0 = fellow::Data::get_data(0);
     let a = match f0 {

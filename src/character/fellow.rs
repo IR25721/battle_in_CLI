@@ -5,7 +5,7 @@ use std::fs;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Data {
-    id: u8,
+    id: u32,
     name: String,
     lv: u8,
     total_exp: i32,
@@ -14,13 +14,13 @@ pub struct Data {
     attack: f64,
     defense: f64,
     speed: f64,
-    sword_id: u8,
-    armor_id: u8,
-    accessible_spells: Vec<u8>,
+    sword_id: u32,
+    armor_id: u32,
+    accessible_spells: Vec<u32>,
 }
 
 impl TomlData for Data {
-    fn get_data(id: u8) -> Option<Self> {
+    fn get_data(id: u32) -> Option<Self> {
         let path = "assets/data/fellow_data.toml";
         let toml_str = fs::read_to_string(path).ok()?;
         let enemy_map: HashMap<String, Self> = match toml::from_str(&toml_str) {
@@ -30,14 +30,14 @@ impl TomlData for Data {
                 return None;
             }
         };
-        let id_map: HashMap<u8, Self> = enemy_map
+        let id_map: HashMap<u32, Self> = enemy_map
             .into_iter()
             .map(|(_, data)| (data.id, data))
             .collect();
 
         id_map.get(&id).cloned()
     }
-    fn update_and_save<K, V>(id: u8, field: K, new_value: V) -> bool
+    fn update_and_save<K, V>(id: u32, field: K, new_value: V) -> bool
     where
         Self: Sized,
         K: AsRef<str>,
@@ -106,22 +106,22 @@ impl TomlData for Data {
                         }
                     }
                     "sword_id" => {
-                        if let Ok(new_sword_id) = new_value.to_string().parse::<u8>() {
+                        if let Ok(new_sword_id) = new_value.to_string().parse::<u32>() {
                             item.sword_id = new_sword_id;
                             found = true;
                         }
                     }
                     "armor_id" => {
-                        if let Ok(new_armor_id) = new_value.to_string().parse::<u8>() {
+                        if let Ok(new_armor_id) = new_value.to_string().parse::<u32>() {
                             item.armor_id = new_armor_id;
                             found = true;
                         }
                     }
                     "accessible_spells" => {
-                        let new_spells: Vec<u8> = new_value
+                        let new_spells: Vec<u32> = new_value
                             .to_string()
                             .split(',')
-                            .filter_map(|s| s.parse::<u8>().ok())
+                            .filter_map(|s| s.parse::<u32>().ok())
                             .collect();
 
                         item.accessible_spells = new_spells;
@@ -144,7 +144,9 @@ impl TomlData for Data {
 
         fs::write(path, new_toml).is_ok()
     }
-
+    fn id(&self) -> u32 {
+        self.id
+    }
     fn lv(&self) -> u8 {
         self.lv
     }
@@ -163,7 +165,7 @@ impl TomlData for Data {
     fn speed(&self) -> f64 {
         self.speed
     }
-    fn accessible_spells(&self) -> Vec<u8> {
+    fn accessible_spells(&self) -> Vec<u32> {
         self.accessible_spells.clone()
     }
 }
@@ -172,10 +174,10 @@ impl Data {
     pub fn total_exp(&self) -> i32 {
         self.total_exp
     }
-    pub fn sword_id(&self) -> u8 {
+    pub fn sword_id(&self) -> u32 {
         self.sword_id
     }
-    pub fn armor_id(&self) -> u8 {
+    pub fn armor_id(&self) -> u32 {
         self.armor_id
     }
 }

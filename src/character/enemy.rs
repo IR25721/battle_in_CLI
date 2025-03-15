@@ -5,7 +5,7 @@ use std::fs;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Data {
-    id: u8,
+    id: u32,
     name: String,
     hp: f64,
     lv: u8,
@@ -15,11 +15,11 @@ pub struct Data {
     speed: f64,
     action_count: i32,
     exp: i32,
-    accessible_spells: Vec<u8>,
+    accessible_spells: Vec<u32>,
 }
 
 impl TomlData for Data {
-    fn get_data(id: u8) -> Option<Self> {
+    fn get_data(id: u32) -> Option<Self> {
         let path = "assets/data/enemy_data.toml";
         let toml_str = fs::read_to_string(path).ok()?;
         let enemy_map: HashMap<String, Self> = match toml::from_str(&toml_str) {
@@ -29,20 +29,23 @@ impl TomlData for Data {
                 return None;
             }
         };
-        let id_map: HashMap<u8, Self> = enemy_map
+        let id_map: HashMap<u32, Self> = enemy_map
             .into_iter()
             .map(|(_, data)| (data.id, data))
             .collect();
 
         id_map.get(&id).cloned()
     }
-    fn update_and_save<K, V>(_id: u8, _field: K, _new_value: V) -> bool
+    fn update_and_save<K, V>(_id: u32, _field: K, _new_value: V) -> bool
     where
         Self: Sized,
         K: AsRef<str>,
         V: ToString,
     {
         todo!()
+    }
+    fn id(&self) -> u32 {
+        self.id
     }
 
     fn lv(&self) -> u8 {
@@ -63,7 +66,7 @@ impl TomlData for Data {
     fn speed(&self) -> f64 {
         self.speed
     }
-    fn accessible_spells(&self) -> Vec<u8> {
+    fn accessible_spells(&self) -> Vec<u32> {
         self.accessible_spells.clone()
     }
 }
