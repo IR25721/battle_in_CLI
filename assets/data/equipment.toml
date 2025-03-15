@@ -1,0 +1,10 @@
+[equipment0]
+id = 0
+name = "革のふく"
+modifier = 3
+bonus_effect = "なし"
+[equipment1]
+id = 1
+name = "ヒノキの棒"
+modifier = 2
+bonus_effect = "なし"
