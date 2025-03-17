@@ -94,11 +94,15 @@ impl Data {
         }
     }
     pub fn use8(&mut self) {
-        self.hp += 10.;
+        let base_recover = 10.;
+        self.hp += base_recover;
         self.mp -= 4;
+        println!("{}は{}回復した", self.name(), base_recover);
     }
     pub fn use3(&mut self, fellow: &mut fellow::Data) {
         self.mp -= 3;
-        fellow.set_hp(fellow.hp() - 6.);
+        let base_damage = 6.;
+        fellow.set_hp(fellow.hp() - base_damage);
+        println!("{}は{}のダメージを受けた", fellow.name(), base_damage);
     }
 }

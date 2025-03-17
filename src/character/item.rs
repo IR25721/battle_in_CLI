@@ -114,7 +114,9 @@ impl Data {
 
 impl Data {
     pub fn use2(&mut self, fellow: &mut fellow::Data) {
+        let base_recover = 8.;
         self.quantity -= 1;
-        fellow.set_hp(fellow.hp() + 8.);
+        fellow.set_hp(fellow.hp() + base_recover);
+        println!("{}は{}回復した", fellow.name(), base_recover)
     }
 }

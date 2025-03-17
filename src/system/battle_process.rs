@@ -1,5 +1,6 @@
 use crossterm::event::{self, Event, KeyCode, KeyEvent};
 use proconio::input;
+use rand;
 use std::thread;
 use std::time::Duration;
 
@@ -21,6 +22,7 @@ impl Entity {
 use crate::{
     character::{enemy, fellow},
     system::{
+        damage::{self, calculate_damage},
         order_of_action::{sorted_by_speed, sorted_by_turn_order},
         toml::TomlData,
     },
@@ -51,7 +53,50 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
             .collect::<Vec<u32>>()
         {
             if entities.iter().any(|entity| entity.id() == id) {
-                todo!()
+                if id % 5 == 0
+                /*enemy*/
+                {
+                    let action = rand::random::<f64>();
+                    let fellow = &mut fellows[0];
+                    let enemy = enemies.iter_mut().find(|enemy| enemy.id() == id);
+                    if let Some(enemy) = enemy {
+                        if enemy.accessible_spells().len() > 0 {
+                            let damage = calculate_damage(&enemy.attack(), &fellow.defense());
+                            if (0. ..0.5).contains(&action) {
+                                fellow.set_hp(fellow.hp() - damage);
+                                println!("{}ダメージ受けた！", damage);
+                            } else {
+                                other_action(enemy, fellow, &action);
+                            }
+                        } else {
+                            let damage = calculate_damage(&enemy.attack(), &fellow.defense());
+                            fellow.set_hp(fellow.hp() - damage);
+                            println!("{}ダメージ受けた！", damage);
+                        }
+                    }
+                } else if id % 5 == 1
+                /*fellow*/
+                {
+                    todo!()
+                } else {
+                    println!("error")
+                }
+            }
+        }
+    }
+    fn other_action(enemy: &mut enemy::Data, fellow: &mut fellow::Data, action: &f64) {
+        for i in 0..enemy.accessible_spells().len() {
+            let start = 0.5 * (1.0 + i as f64 / enemy.accessible_spells().len() as f64);
+            let end = 0.5 * (1.0 + (i as f64 + 1.0) / enemy.accessible_spells().len() as f64);
+
+            if (start..end).contains(action) {
+                match i {
+                    3 => enemy.use3(fellow),
+                    8 => enemy.use8(),
+                    _ => println!("error"),
+                }
+            } else {
+                continue;
             }
         }
     }

@@ -203,19 +203,27 @@ impl Data {
         }
     }
     pub fn use8(&mut self) {
+        let base_recover = 10.;
         self.hp += 10.;
         self.mp -= 4;
+        println!("{}は{}回復した", self.name(), base_recover);
     }
     pub fn use3(&mut self, enemy: &mut enemy::Data) {
+        let base_damage = 6.;
         self.mp -= 3;
         enemy.set_hp(enemy.hp() - 6.);
+        println!("{}は{}のダメージを与えた！", enemy.name(), base_damage);
     }
     pub fn use13(&mut self) {
+        let base_rate = 1.2;
         self.mp -= 3;
-        self.attack *= 1.2;
+        self.attack *= base_rate;
+        println!("{}の攻撃力が上がった！", self.name())
     }
     pub fn use18(&mut self) {
+        let base_rate = 1.2;
         self.mp -= 3;
-        self.defense *= 1.2;
+        self.defense *= base_rate;
+        println!("{}の守備力が上がった！", self.name())
     }
 }
