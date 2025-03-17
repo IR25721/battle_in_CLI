@@ -171,17 +171,13 @@ impl Data {
     pub fn speed(&self) -> f64 {
         self.speed
     }
-    pub fn accessible_spells(&self) -> Vec<u32> {
-        self.accessible_spells.clone()
-    }
-
-    pub fn total_exp(&self) -> i32 {
-        self.total_exp
-    }
     pub fn sword_id(&self) -> u32 {
         self.sword_id
     }
     pub fn armor_id(&self) -> u32 {
         self.armor_id
+    }
+    pub fn accessible_spells(&self) -> Vec<u32> {
+        self.accessible_spells.clone()
     }
 }

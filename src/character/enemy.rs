@@ -3,6 +3,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
 
+use super::fellow;
+
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Data {
     id: u32,
@@ -73,5 +75,18 @@ impl Data {
     }
     pub fn accessible_spells(&self) -> Vec<u32> {
         self.accessible_spells.clone()
+    }
+}
+impl Data {
+    pub fn use_spell(&self) {
+        todo!()
+    }
+    pub fn use8(mut self) {
+        self.hp += 10.;
+        self.mp -= 3;
+    }
+    pub fn use3(mut self, mut fellow: fellow::Data) {
+        self.mp -= 3;
+        fellow.hp -= 5;
     }
 }

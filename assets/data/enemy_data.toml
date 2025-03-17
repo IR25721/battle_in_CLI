@@ -1,5 +1,5 @@
 [enemy_0]
-id = 111
+id = 0
 name = "e0"
 lv = 1
 hp = 8
@@ -12,7 +12,7 @@ exp = 4
 accessible_spells = []
 
 [enemy_1]
-id = 112
+id = 5
 name = "e1"
 lv = 3
 hp = 12
@@ -25,7 +25,7 @@ exp = 9
 accessible_spells = [2]
 
 [enemy_2]
-id = 113
+id = 10
 name = "e2"
 lv = 3
 hp = 13

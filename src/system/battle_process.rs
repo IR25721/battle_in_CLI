@@ -9,6 +9,15 @@ enum Entity {
     Fellow(fellow::Data),
 }
 
+impl Entity {
+    fn id(&self) -> u32 {
+        match self {
+            Entity::Enemy(enemy) => enemy.id(),
+            Entity::Fellow(fellow) => fellow.id(),
+        }
+    }
+}
+
 use crate::{
     character::{enemy, fellow},
     system::{
@@ -41,7 +50,9 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
             .map(|(id, _)| *id)
             .collect::<Vec<u32>>()
         {
-            todo!()
+            if entities.iter().any(|entity| entity.id() == id) {
+                todo!()
+            }
         }
     }
 }
