@@ -9,7 +9,7 @@ defense = 5
 speed = 4
 action_count = 1
 exp = 4
-accessible_spells = []
+accessible_spells = [3]
 
 [enemy_1]
 id = 5
@@ -22,7 +22,7 @@ defense = 8
 speed = 8
 action_count = 1
 exp = 9
-accessible_spells = [2]
+accessible_spells = [8]
 
 [enemy_2]
 id = 10

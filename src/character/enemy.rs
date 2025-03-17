@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
 
-use super::fellow;
+use super::{fellow, spell};
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Data {
@@ -61,6 +61,9 @@ impl Data {
     pub fn hp(&self) -> f64 {
         self.hp
     }
+    pub fn set_hp(&mut self, hp: f64) {
+        self.hp = hp;
+    }
     pub fn mp(&self) -> i32 {
         self.mp
     }
@@ -78,15 +81,24 @@ impl Data {
     }
 }
 impl Data {
-    pub fn use_spell(&self) {
-        todo!()
+    pub fn use_spell(&mut self, id: u32, fellow: &mut fellow::Data) {
+        let spell = spell::Data::get_data(id);
+        if self.mp > spell.expect("error").mp_cost() {
+            match id {
+                3 => self.use3(fellow),
+                8 => self.use8(),
+                _ => println!("error"),
+            }
+        } else {
+            println!("mpが足りません！")
+        }
     }
-    pub fn use8(mut self) {
+    pub fn use8(&mut self) {
         self.hp += 10.;
-        self.mp -= 3;
+        self.mp -= 4;
     }
-    pub fn use3(mut self, mut fellow: fellow::Data) {
+    pub fn use3(&mut self, fellow: &mut fellow::Data) {
         self.mp -= 3;
-        fellow.hp -= 5;
+        fellow.set_hp(fellow.hp() - 6.);
     }
 }

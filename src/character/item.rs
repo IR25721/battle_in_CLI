@@ -3,6 +3,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
 
+use super::fellow;
+
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Data {
     id: u32,
@@ -107,5 +109,12 @@ impl Data {
 
     pub fn quantity(&self) -> u8 {
         self.quantity
+    }
+}
+
+impl Data {
+    pub fn use2(&mut self, fellow: &mut fellow::Data) {
+        self.quantity -= 1;
+        fellow.set_hp(fellow.hp() + 8.);
     }
 }

@@ -3,6 +3,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
 
+use super::{enemy, spell};
+
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Data {
     id: u32,
@@ -159,6 +161,9 @@ impl Data {
     pub fn hp(&self) -> f64 {
         self.hp
     }
+    pub fn set_hp(&mut self, hp: f64) {
+        self.hp = hp;
+    }
     pub fn mp(&self) -> i32 {
         self.mp
     }
@@ -179,5 +184,38 @@ impl Data {
     }
     pub fn accessible_spells(&self) -> Vec<u32> {
         self.accessible_spells.clone()
+    }
+}
+
+impl Data {
+    pub fn use_spell(&mut self, id: u32, enemy: &mut enemy::Data) {
+        let spell = spell::Data::get_data(id);
+        if self.mp > spell.expect("error").mp_cost() {
+            match id {
+                3 => self.use3(enemy),
+                8 => self.use8(),
+                13 => self.use13(),
+                18 => self.use18(),
+                _ => println!("error"),
+            }
+        } else {
+            println!("mpが足りません！")
+        }
+    }
+    pub fn use8(&mut self) {
+        self.hp += 10.;
+        self.mp -= 4;
+    }
+    pub fn use3(&mut self, enemy: &mut enemy::Data) {
+        self.mp -= 3;
+        enemy.set_hp(enemy.hp() - 6.);
+    }
+    pub fn use13(&mut self) {
+        self.mp -= 3;
+        self.attack *= 1.2;
+    }
+    pub fn use18(&mut self) {
+        self.mp -= 3;
+        self.defense *= 1.2;
     }
 }
