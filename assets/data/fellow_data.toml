@@ -11,3 +11,4 @@ speed = 13.0
 sword_id = 1
 armor_id = 3
 accessible_spells = [3, 8, 13, 18]
+accessible_items = [2]

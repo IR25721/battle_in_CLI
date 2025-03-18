@@ -97,4 +97,7 @@ impl Data {
     pub fn mp_cost(&self) -> i32 {
         self.mp_cost
     }
+    pub fn description(&self) -> String {
+        self.description.clone()
+    }
 }

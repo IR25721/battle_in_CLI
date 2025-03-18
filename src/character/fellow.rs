@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
 
-use super::{enemy, spell};
+use super::{enemy, item, spell};
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Data {
@@ -19,6 +19,7 @@ pub struct Data {
     sword_id: u32,
     armor_id: u32,
     accessible_spells: Vec<u32>,
+    accessible_items: Vec<u32>,
 }
 
 impl TomlData for Data {
@@ -129,6 +130,16 @@ impl TomlData for Data {
                         item.accessible_spells = new_spells;
                         found = true;
                     }
+                    "accessible_items" => {
+                        let new_items: Vec<u32> = new_value
+                            .to_string()
+                            .split(',')
+                            .filter_map(|s| s.parse::<u32>().ok())
+                            .collect();
+
+                        item.accessible_items = new_items;
+                        found = true;
+                    }
                     _ => {}
                 }
                 break;
@@ -185,14 +196,27 @@ impl Data {
     pub fn accessible_spells(&self) -> Vec<u32> {
         self.accessible_spells.clone()
     }
+    pub fn accessible_items(&self) -> Vec<u32> {
+        self.accessible_items.clone()
+    }
 }
 
 impl Data {
-    pub fn use_spell(&mut self, id: u32, enemy: &mut enemy::Data) {
-        let spell = spell::Data::get_data(id);
+    pub fn use_attack_spell(&mut self, spell_id: u32, enemy: &mut enemy::Data) {
+        let spell = spell::Data::get_data(spell_id);
         if self.mp > spell.expect("error").mp_cost() {
-            match id {
+            match spell_id {
                 3 => self.use3(enemy),
+                _ => println!("error"),
+            }
+        } else {
+            println!("mpが足りません！")
+        }
+    }
+    pub fn use_assist_spell(&mut self, spell_id: u32) {
+        let spell = spell::Data::get_data(spell_id);
+        if self.mp > spell.expect("error").mp_cost() {
+            match spell_id {
                 8 => self.use8(),
                 13 => self.use13(),
                 18 => self.use18(),
@@ -225,5 +249,23 @@ impl Data {
         self.mp -= 3;
         self.defense *= base_rate;
         println!("{}の守備力が上がった！", self.name())
+    }
+}
+impl Data {
+    pub fn use_assist_item(&mut self, item_id: u32) {
+        let item = item::Data::get_data(item_id);
+        match item_id {
+            0 => println!("何も使わなかった"),
+            2 => self.use2(&mut item.expect("error")),
+            _ => println!("error"),
+        }
+    }
+
+    pub fn use2(&mut self, item: &mut item::Data) {
+        let base_recover = 8.;
+        item.set_quantity(item.quantity() - 1);
+        self.set_hp(self.hp() + base_recover);
+        item::Data::update_and_save(2, "quantity", item.quantity());
+        println!("{}は{}回復した", self.name(), base_recover)
     }
 }

@@ -9,7 +9,6 @@ use super::fellow;
 pub struct Data {
     id: u32,
     name: String,
-    modifier: f64,
     description: String,
     quantity: u8,
 }
@@ -58,12 +57,6 @@ impl TomlData for Data {
                         item.name = new_value.to_string();
                         found = true;
                     }
-                    "modifier" => {
-                        if let Ok(new_modifier) = new_value.to_string().parse::<f64>() {
-                            item.modifier = new_modifier;
-                            found = true;
-                        }
-                    }
                     "quantity" => {
                         if let Ok(new_quantity) = new_value.to_string().parse::<u8>() {
                             item.quantity = new_quantity;
@@ -103,20 +96,13 @@ impl TomlData for Data {
 }
 
 impl Data {
-    pub fn modifier(&self) -> f64 {
-        self.modifier
-    }
-
     pub fn quantity(&self) -> u8 {
         self.quantity
     }
-}
-
-impl Data {
-    pub fn use2(&mut self, fellow: &mut fellow::Data) {
-        let base_recover = 8.;
-        self.quantity -= 1;
-        fellow.set_hp(fellow.hp() + base_recover);
-        println!("{}は{}回復した", fellow.name(), base_recover)
+    pub fn set_quantity(&mut self, quantity: u8) {
+        self.quantity = quantity;
+    }
+    pub fn description(&self) -> String {
+        self.description.clone()
     }
 }
