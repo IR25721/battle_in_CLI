@@ -73,18 +73,24 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
                         }
                         let action_rand = rand::random::<f64>();
                         let fellow = &mut fellows[0];
-                        let enemy = enemies.iter_mut().find(|enemy| enemy.id() == id);
-                        if let Some(enemy) = enemy {
-                            let damage =
-                                calculate_damage(&enemy.attack(), &fellow.defense()).floor();
-                            fellow.set_hp((fellow.hp() - damage).max(0.));
-                            println!("{}ダメージ受けた！", damage);
 
-                            if enemy.accessible_spells().len() > 0 && action_rand >= 0.5 {
+                        if let Some(enemy) = enemies.iter_mut().find(|enemy| enemy.id() == id) {
+                            if action_rand < 0.5 {
+                                let damage =
+                                    calculate_damage(&enemy.attack(), &fellow.defense()).floor();
+                                fellow.set_hp((fellow.hp() - damage).max(0.));
+                                println!(
+                                    "{}は{}に{}ダメージ与えた",
+                                    enemy.name(),
+                                    fellow.name(),
+                                    damage
+                                );
+                            } else if enemy.accessible_spells().len() > 0 && action_rand >= 0.5 {
                                 other_action(enemy, fellow, &action_rand);
                             }
                         }
                     }
+
                     Entity::Fellow(fellow) => {
                         if fellow.hp() <= 0. {
                             continue;
@@ -95,7 +101,7 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
                                 calculate_damage(&fellow.attack(), &selected_enemy.defense())
                                     .floor();
                             selected_enemy.set_hp((selected_enemy.hp() - damage).max(0.));
-                            println!("{}に{}ダメージ与えた!", selected_enemy.name(), damage);
+                            println!("{}に{}ダメージ与えた", selected_enemy.name(), damage);
                         }
                         if action == 1 {
                             let fellow = &mut fellows[0];

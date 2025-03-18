@@ -97,12 +97,14 @@ impl Data {
         let base_recover = 10.;
         self.hp += base_recover;
         self.mp -= 4;
+        println!("{}はs1を発動した", self.name);
         println!("{}は{}回復した", self.name(), base_recover);
     }
     pub fn use3(&mut self, fellow: &mut fellow::Data) {
         self.mp -= 3;
         let base_damage = 6.;
         fellow.set_hp(fellow.hp() - base_damage);
-        println!("{}は{}のダメージを受けた", fellow.name(), base_damage);
+        println!("{}はs0を発動した", self.name);
+        println!("{}は{}ダメージを受けた", fellow.name(), base_damage);
     }
 }
