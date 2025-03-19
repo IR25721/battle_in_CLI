@@ -63,7 +63,7 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
         }
 
         let order_of_action = sorted_by_turn_order(&mut sorted_by_speed(&enemies, &fellows));
-
+        println!("{:?}", order_of_action);
         for id in order_of_action.iter().map(|(id, _)| *id) {
             if let Some(entity) = entities.iter().find(|entity| entity.id() == id) {
                 match entity {
@@ -75,7 +75,7 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
                         let fellow = &mut fellows[0];
 
                         if let Some(enemy) = enemies.iter_mut().find(|enemy| enemy.id() == id) {
-                            if action_rand < 0.5 {
+                            if action_rand < 0.5 || enemy.accessible_spells().is_empty() {
                                 let damage =
                                     calculate_damage(&enemy.attack(), &fellow.defense()).floor();
                                 fellow.set_hp((fellow.hp() - damage).max(0.));
@@ -85,7 +85,7 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
                                     fellow.name(),
                                     damage
                                 );
-                            } else if enemy.accessible_spells().len() > 0 && action_rand >= 0.5 {
+                            } else if !enemy.accessible_spells().is_empty() && action_rand >= 0.5 {
                                 other_action(enemy, fellow, &action_rand);
                             }
                         }
