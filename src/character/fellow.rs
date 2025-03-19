@@ -228,7 +228,13 @@ impl Data {
     }
     pub fn use8(&mut self) {
         let base_recover = 10.;
+        let fellow = Data::get_data(self.id);
         self.hp += 10.;
+        if self.hp > fellow.clone().expect("not found").hp() {
+            self.set_hp(fellow.expect("not found").hp());
+        } else {
+            self.set_hp(self.hp());
+        }
         self.mp -= 4;
         println!("{}はs1を発動した", self.name);
         println!("{}は{}回復した", self.name(), base_recover);

@@ -149,7 +149,6 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
         for i in 0..enemy.accessible_spells().len() {
             let start = 0.5 * (1.0 + i as f64 / enemy.accessible_spells().len() as f64);
             let end = 0.5 * (1.0 + (i as f64 + 1.0) / enemy.accessible_spells().len() as f64);
-
             if (start..end).contains(action) {
                 match enemy.accessible_spells()[i] {
                     3 => enemy.use3(fellow),
