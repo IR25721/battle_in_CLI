@@ -241,9 +241,11 @@ impl Data {
         println!("{}は{}のダメージを与えた！", enemy.name(), base_damage);
     }
     pub fn use13(&mut self) {
+        println!("before:{}", self.attack);
         let base_rate = 1.2;
         self.mp -= 3;
         self.attack *= base_rate;
+        println!("after:{}", self.attack);
         println!("{}はs2を発動した", self.name);
         println!("{}の攻撃力が上がった！", self.name())
     }

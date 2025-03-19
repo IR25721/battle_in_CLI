@@ -97,6 +97,7 @@ pub fn battle(mut enemies: Vec<enemy::Data>, mut fellows: Vec<fellow::Data>) {
                         }
                         if action == 0 {
                             let selected_enemy = select_enemy(&mut enemies);
+                            let fellow = &mut fellows[0];
                             let damage =
                                 calculate_damage(&fellow.attack(), &selected_enemy.defense())
                                     .floor();
